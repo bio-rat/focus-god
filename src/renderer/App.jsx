@@ -35,6 +35,7 @@ const App = () => {
         </ul>
         <p>
           Edit <code>src/renderer/App.tsx</code> and save to reload.
+          adsadsa
         </p>
         <div>
           <a
