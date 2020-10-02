@@ -14,14 +14,14 @@ require('electron-debug')({ showDevTools: true })
 require('electron').app.on('ready', () => {
   require('devtron').install()
 
-  let installExtension = require('electron-devtools-installer')
+  // let installExtension = require('electron-devtools-installer')
 
-  installExtension
-    .default([installExtension.REACT_DEVELOPER_TOOLS])
-    .then(() => {})
-    .catch(er => {
-      console.log('Unable to install devtools: \n', err)
-    })
+  // installExtension
+  //   .default([installExtension.REDUX_DEVTOOLS])
+  //   .then(() => {})
+  //   .catch(er => {
+  //     console.log('Unable to install devtools: \n', er)
+  //   })
 })
 
 // Require `main` process to boot app

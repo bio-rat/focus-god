@@ -1,7 +1,12 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
-
+import { app, BrowserWindow, ipcMain } from 'electron'
+const Store = require('electron-store');
+const schema = {
+  launchAtStart: true,
+  state: []
+}
+const store = new Store(schema);
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -24,7 +29,8 @@ function createWindow () {
     useContentSize: true,
     width: 1000,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   })
 
@@ -35,7 +41,17 @@ function createWindow () {
   })
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow()
+
+  ipcMain.on('SET_STATE', (event, data) => {
+    store.set('state', data);
+  })
+
+  mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.webContents.send('INITIALIZE_STATE', store.get('state'));
+  });
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
